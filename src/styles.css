@@ -1,0 +1,113 @@
+:root {
+  font-size: 14px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  text-align: center;
+  padding: 8px;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #dddddd;
+}
+
+.search_input {
+  width: 99%;
+  height: 20px;
+  position: relative;
+  display: flex;
+  border: 3px solid #dddddd;
+  margin-bottom: 20px;
+}
+
+.pagination {
+  display: flex;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul.pagination li {
+  display: inline;
+  display: inline-block;
+  width: 30px;
+  border: 1px solid #e2e2e2;
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+}
+
+ul.pagination li a {
+  text-decoration: none;
+  color: #b41616;
+  font-size: 20px;
+}
+
+ul.pagination li.active a {
+  color: white;
+}
+ul.pagination li.active {
+  background-color: #dddddd;
+}
+
+ul.pagination li a:hover,
+ul.pagination li a.active {
+  color: blue;
+}
+
+.page-link {
+  background-color: transparent;
+  border: transparent;
+}
+
+.page-item {
+  border: 1px solid #e2e2e2;
+  color: transparent;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.page-next {
+  border: 1px solid #dddddd;
+  color: transparent;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.nav {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button_border {
+  color: #212529;
+  background-color: transparent;
+  border: transparent;
+}
+
+.button_edit {
+  border: solid 1px black;
+  background-color: transparent;
+}
