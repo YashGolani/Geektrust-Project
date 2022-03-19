@@ -5,7 +5,7 @@ import EditIcon from "./EditIcon";
 function ReadOnlyRow({ row, toggleCheckbox, handleEditHandler, removeId }) {
   return (
     <Fragment>
-      <tr key={row.id}>
+      <tr className={row.select ? "row-selected" : ""} key={row.id}>
         <td>
           <input
             type="checkbox"

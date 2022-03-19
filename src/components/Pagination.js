@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Pagination = ({ totalPages, pageno, setPageno, deleteMulti }) => {
+export const Pagination = ({ totalPages, pageno, setPageno, handleDeleteMultipleUsers }) => {
   const pageNo = [];
 
   for (let i = 1; i <= totalPages; i++) {
@@ -14,8 +14,8 @@ export const Pagination = ({ totalPages, pageno, setPageno, deleteMulti }) => {
   };
   return (
     <nav className="nav">
-      <button className="btn-danger" onClick={() => deleteMulti()}>
-        <span>Delete Selected</span>
+      <button className="btn-danger" onClick={handleDeleteMultipleUsers}>
+        Delete Selected
       </button>
       <ul className="pagination">
         <li className="page-item">

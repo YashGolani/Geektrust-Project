@@ -3,8 +3,7 @@ import EditAbleRow from "./EditAbleRow";
 import ReadOnlyRow from "./ReadOnlyRow";
 
 function DataTable({
-  data,
-  setData,
+  handleGlobalCheckboxChange,
   removeId,
   currentUser,
   editContact,
@@ -15,6 +14,10 @@ function DataTable({
   handleEditFormSubmit,
   handleCancelClick,
 }) {
+  const isGlobalCheckboxChecked = () => {
+    return currentUser.length && !currentUser.find((u) => !u.select);
+  };
+
   return (
     <form onSubmit={handleEditFormSubmit}>
       <table cellPadding={0} cellSpacing={0}>
@@ -24,14 +27,8 @@ function DataTable({
               <input
                 type="checkbox"
                 style={{ width: 15, height: 15 }}
-                onChange={(e) => {
-                  setData(
-                    data.map((user) => {
-                      user.select = e.target.checked;
-                      return user;
-                    })
-                  );
-                }}
+                onChange={handleGlobalCheckboxChange}
+                checked={isGlobalCheckboxChecked()}
               />
             </th>
             <th>Name</th>

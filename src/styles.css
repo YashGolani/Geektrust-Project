@@ -18,8 +18,13 @@ td {
   padding: 8px;
 }
 
-tbody tr:nth-child(odd) {
-  background-color: #dddddd;
+tbody tr {
+  border-bottom: 2px solid #d7d7d7;
+}
+
+.row-selected {
+  background-color: #c3c3c3;
+  border-bottom: 1px solid #000000;
 }
 
 .search_input {

@@ -1,46 +1,35 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import DataTable from "./components/DataTable";
 import { SearchUsers } from "./components/SearchUser";
 import { Pagination } from "./components/Pagination";
 import "./styles.css";
+import { fetchMembers } from "./actions/services";
 
 function App() {
-  let [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [pageno, setPageno] = useState(1);
   const [filter, setFilter] = useState("");
   const [editContact, setEditContact] = useState(null);
-  const usersPage = 10;
 
   const [editFormData, setEditFormData] = useState({
     name: "",
     email: "",
     role: "",
   });
+  const usersPage = 10;
 
   useEffect(() => {
-    const gotUsers = async () => {
-      let response;
+    const fetchUsers = async () => {
       try {
-        response = await (
-          await fetch(
-            "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
-          )
-        ).json();
-        setData(response.map((user) => ({ ...user, select: false })));
+        const response = await fetchMembers();
+        const responseData = await response.json();
+        setData(responseData.map((user) => ({ ...user, select: false })));
       } catch (err) {
         alert(err);
       }
     };
-    gotUsers();
+    fetchUsers();
   }, []);
-
-  let search = data.filter((user) => {
-    return (
-      user.name.toLowerCase().includes(filter) ||
-      user.email.toLowerCase().includes(filter) ||
-      user.role.toLowerCase().includes(filter)
-    );
-  });
 
   const toggleCheckbox = (id) => {
     setData(
@@ -52,10 +41,10 @@ function App() {
   };
 
   const removeId = (id) => {
-    data = data.filter((item) => {
+    const updatedData = data.filter((item) => {
       return item.id !== id;
     });
-    setData(data);
+    setData(updatedData);
   };
 
   const handleEditFormChange = (event) => {
@@ -96,22 +85,54 @@ function App() {
     setEditContact(null);
   };
 
-  const deleteMulti = () => {
-    setData(data.filter((user) => !user.select));
-  };
+  const search = data.filter((user) => {
+    return (
+      user.name.toLowerCase().includes(filter) ||
+      user.email.toLowerCase().includes(filter) ||
+      user.role.toLowerCase().includes(filter)
+    );
+  });
 
-  let indexOfLastUser = pageno * usersPage;
+  const indexOfLastUser = pageno * usersPage;
   const indexOfFirstUser = indexOfLastUser - usersPage;
-  let currentUser = search.slice(indexOfFirstUser, indexOfLastUser);
+  const currentUser = search.slice(indexOfFirstUser, indexOfLastUser);
 
   const totalPages = Math.ceil(search.length / usersPage);
+
+  const handleGlobalCheckboxChange = useCallback(
+    (e) => {
+      const checked = e.target.checked;
+      setData((currdata) => {
+        return currdata.map((user) => {
+          const isUserBeingDisplayed = currentUser.findIndex(
+            (u) => u.id === user.id
+          );
+          if (isUserBeingDisplayed > -1) {
+            return {
+              ...user,
+              select: checked,
+            };
+          }
+          return user;
+        });
+      });
+    },
+    [currentUser]
+  );
+
+  const handleDeleteMultipleUsers = () => {
+    const updatedData = data.filter((user) => !user.select);
+    setData(updatedData);
+    if (pageno === totalPages && totalPages > 1) {
+      setPageno((curr) => curr - 1);
+    }
+  };
 
   return (
     <Fragment>
       <SearchUsers setFilter={setFilter} setPageno={setPageno} />
       <DataTable
-        data={data}
-        setData={setData}
+        handleGlobalCheckboxChange={handleGlobalCheckboxChange}
         removeId={removeId}
         currentUser={currentUser}
         editContact={editContact}
@@ -127,7 +148,7 @@ function App() {
         totalPages={totalPages}
         pageno={pageno}
         setPageno={setPageno}
-        deleteMulti={deleteMulti}
+        handleDeleteMultipleUsers={handleDeleteMultipleUsers}
       />
     </Fragment>
   );
