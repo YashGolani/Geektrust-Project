@@ -113,6 +113,8 @@ ul.pagination li a.active {
 }
 
 .button_edit {
+  border-radius: 6px;
+  margin: 3px;
   border: solid 1px black;
   background-color: transparent;
 }
