@@ -15,4 +15,4 @@ After installing libraries write the below code for running the project locally.
 ```
 
 ## Demo
-https://zealous-borg-53fd77.netlify.app/
+https://6235f5406a095f32c805cc81--wonderful-murdock-be03a2.netlify.app/
